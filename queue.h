@@ -21,9 +21,6 @@ public:
     T getData();
     void setData(T update);
     void setBehind(QNode<T> *next);
-
-    template<class T>
-    T getHead();
 };
 /*
  *
