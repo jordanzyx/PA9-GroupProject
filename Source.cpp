@@ -4,6 +4,7 @@
 #include "dodger.h"
 #include "queue.h"
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -12,8 +13,15 @@ void Rocks(vector<Rock*> *rocks, int random ,int windowX)
 	for (int x = 0; x < random; x++)
 	{
 		int pos = (rand() % windowX);
+		int degree = rand() % 360;
 		Rock *r = new Rock(0,"rock.png", pos,0);
+		r->changeOrgin(r->getSprite().getGlobalBounds().width / 2, r->getSprite().getGlobalBounds().height / 2);
+		
+		//cout << r->getSprite().getGlobalBounds().width << "," << r->getSprite().getOrigin().y << " ";
+		cout << r->getSprite().getOrigin().x<<","<< r->getSprite().getOrigin().y << " ";
 		r->resizeSpriteScale(.2, .2);
+		r->rotateSprite(degree);
+
 		rocks->push_back(r);
 
 		
@@ -33,13 +41,15 @@ int main()
 	// Create the main window
 	sf::RenderWindow window(sf::VideoMode(windowX, windowY), "SFML window");
 	// Load a sprite to display
-	
+	sf::Texture bkgd;
+	bkgd.loadFromFile("background.png");
+	sf::Sprite background(bkgd);
 	sf::Font font;
 	if (!font.loadFromFile("arial.ttf"))
 		return EXIT_FAILURE;
 	sf::Text text("Game Over", font, 50);
 	// Load a music to play
-	Player p("player.png", 400, 450);
+	Player p("player.png", 400, 475);
 	p.resizeSpriteScale(.25, .25);
 	// Play the music
 	
@@ -109,11 +119,23 @@ int main()
 			p.setDirection(1);
 		}
 		window.clear();
-
+		window.draw(background);
 		window.draw(p.getSprite());
 		p.updateSprite();
 		// Clear screen
-		
+
+
+		if (p.getX() > windowX - 20)
+		{
+			p.adjustX(0);
+		}
+		else if (p.getX() < 0)
+		{
+			p.adjustX(windowX - 20);
+		}
+
+
+		sf::FloatRect playerbounds = p.getSprite().getGlobalBounds();
 		for (int x = 0; x < rocks.size(); x++)
 		{
 			//rocks.at(x)->getSprite().setTexture();
@@ -123,10 +145,27 @@ int main()
 			{
 				rocks.erase(rocks.begin() + x);
 				p.increaseScore();
+				break;
 			}
-			if (p.getSprite().getGlobalBounds().intersects(rocks.at(x)->getSprite().getGlobalBounds()))
+			sf::FloatRect rockBounds = rocks.at(x)->getSprite().getGlobalBounds();
+			double dx = (p.getX() + (playerbounds.width / 2)) - (rocks.at(x)->getX());
+			double dy = (p.getY() + (playerbounds.height / 2)) - (rocks.at(x)->getY());
+			double distance = sqrt((dx * dx) + (dy * dy));
+			if (distance <= (playerbounds.width/2)+(rockBounds.width/2)-20)
 			{
+				/*
+				sf::CircleShape newShape;
+				sf::Vector2f v(rockBounds.width / 2, rockBounds.height / 2);
+				newShape.setPosition(rocks.at(x)->getX(), rocks.at(x)->getY());
+				newShape.setOrigin(rockBounds.width / 2, rockBounds.width / 2);
+				newShape.setRadius(rockBounds.width / 2);
+				*/
+
+				rocks.at(x)->changeTex("hit.png");
+				window.draw(rocks.at(x)->getSprite());
 				window.draw(text);
+				//window.draw(newShape);
+				//window.display();
 				goto endOfloop;
 			}
 		}

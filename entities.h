@@ -25,6 +25,9 @@ public:
     void adjustY(int distance);
 	void updateSprite();
 	void resizeSpriteScale(double,double);
+	void rotateSprite(double);
+	void changeTex(string);
+	void changeOrgin(double,double);
 	sf::Sprite getSprite();
 };
 

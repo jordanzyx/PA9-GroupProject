@@ -25,9 +25,23 @@ void Moveable::resizeSpriteScale(double x, double y)
 	sf::Vector2f v(x, y);
 	sprite.setScale(v);
 }
-
+void Moveable::rotateSprite(double degree)
+{
+	sprite.setRotation(degree);
+}
 int Moveable::getDirection() {
     return direction;
+}
+
+void Moveable::changeTex(string file)
+{
+	texture.loadFromFile(file);
+}
+
+void Moveable::changeOrgin(double x, double y)
+{
+	sf::Vector2f v(x, y);
+	sprite.setOrigin(v);
 }
 
 void Moveable::setDirection(int direction) {
@@ -45,11 +59,13 @@ int Moveable::getY() {
 }
 
 void Moveable::adjustX(int distance) {
-    this->position.x += distance;
+    this->position.x = distance;
+	sprite.setPosition(position.x, position.y);
 }
 
 void Moveable::adjustY(int distance) {
-    this->position.y += distance;
+    this->position.y = distance;
+	sprite.setPosition(position.x, position.y);
 }
 
 void Moveable::updateSprite()
