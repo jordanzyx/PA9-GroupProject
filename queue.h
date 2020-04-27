@@ -17,6 +17,7 @@ private:
     T data;
     QNode<T> *behind = nullptr;
 public:
+	QNode<T>();
     QNode<T> *getBehind();
     T getData();
     void setData(T update);
@@ -27,6 +28,11 @@ public:
  * INLINE QNODE<T> FUNCTIONS
  *
  */
+template<class T>
+QNode<T>::QNode<T>()
+{
+
+}
 template<class T>
 QNode<T> *QNode<T>::getBehind() {
     return behind;

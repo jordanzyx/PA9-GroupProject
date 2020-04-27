@@ -5,6 +5,7 @@
 #include "dodger.h"
 #include <stdlib.h>
 
+
 void Dodger::tick() {
 
 }
@@ -12,22 +13,26 @@ void Dodger::tick() {
 void Dodger::generateNewRocks(int amount,int totalSprites) {
     for (int i = 0; i < amount; ++i) {
         //Randomly chose a sprite for the rock
-        int sprite = (rand() % totalSprites);
+        int pos = (rand() % maxX);
 
         //Create the rock
-        Rock rock = Rock(sprite);
-
+        Rock rock = Rock(0,"rock.png",pos,0);
+		rock.resizeSpriteScale(.15, .15);
         //Add the rock to the queue
-        getRocks().push(rock);
+        rocks.push(rock);
     }
 }
 
-Player Dodger::getPlayer() {
-    return player;
+Player* Dodger::getPlayer() {
+    return &player;
 }
 
 Queue<Rock> Dodger::getRocks() {
-    return rocks;
+	return rocks;
+}
+
+Queue<Rock>* Dodger::getRocksPtr() {
+    return &rocks;
 }
 
 bool Dodger::isAlive() {
@@ -36,7 +41,7 @@ bool Dodger::isAlive() {
     if(getRocks().top().getY() == 0)return true;
 
     //Get the lane the player is in
-    int x = getPlayer().getX();
+    int x = getPlayer()->getX();
 
     //Check all rocks at y = 0;
     bool level0Rocks = true;
@@ -58,6 +63,9 @@ bool Dodger::isAlive() {
     return true;
 }
 
-Dodger::Dodger(int maxX) {
+Dodger::Dodger(int maxX,int floor, string filename) 
+{
     this->maxX = maxX;
+	player = Player(filename,maxX/2, floor - 50);
+	player.resizeSpriteScale(.15, .15);
 }
