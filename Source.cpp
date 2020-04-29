@@ -8,8 +8,10 @@
 
 
 //Menu
+/*
 #include "Menu/game.h"
 #include "Menu/MenuState.h"
+*/
 
 using namespace std;
 
@@ -38,11 +40,12 @@ void Rocks(vector<Rock*> *rocks, int random ,int windowX)
 int main()
 {
 	//Menu
+	/*
 	Game game;
 	game.pushGameState(new MenuState(&game));
 
 	game.gameLoop();
-
+	*/
 	//End Menu
 
 	bool left = false, right = false;
