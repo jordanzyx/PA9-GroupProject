@@ -6,6 +6,11 @@
 #include <vector>
 #include <cmath>
 
+
+//Menu
+#include "Menu/game.h"
+#include "Menu/MenuState.h"
+
 using namespace std;
 
 void Rocks(vector<Rock*> *rocks, int random ,int windowX)
@@ -32,6 +37,14 @@ void Rocks(vector<Rock*> *rocks, int random ,int windowX)
 
 int main()
 {
+	//Menu
+	Game game;
+	game.pushGameState(new MenuState(&game));
+
+	game.gameLoop();
+
+	//End Menu
+
 	bool left = false, right = false;
 	vector<Rock*> rocks;
 	sf::Texture texture;
@@ -54,8 +67,13 @@ int main()
 	// Play the music
 	
 	// Start the game loop
-	
-	int counter = 0;
+	sf::Clock clock;
+	double lastTime = 0;
+	int counter = 0, counter2 = 0;
+	int spawnValue = 500;
+	int diff = 1;
+	int fps = 0;
+	double currentTime = clock.getElapsedTime().asSeconds();
 	while (window.isOpen())
 	{
 		
@@ -97,9 +115,20 @@ int main()
 			
 
 		}
-		if (counter == 500)
+
+		currentTime = clock.getElapsedTime().asSeconds();
+		if (currentTime > 1.f)
 		{
-			Rocks(&rocks, rand()&2 ,windowX);
+			fps = counter2 / (currentTime);
+			clock.restart().asSeconds();
+			counter2 = 0;
+		}
+		counter2++;
+		
+		sf::Text score("Score " + to_string(p.getScore()) + ", FPS " + to_string(fps), font, 25);
+		if (counter >= 500)
+		{
+			Rocks(&rocks, rand()%(2+diff) ,windowX);
 			counter = 0;
 		}
 		else
@@ -120,6 +149,7 @@ int main()
 		}
 		window.clear();
 		window.draw(background);
+		window.draw(score);
 		window.draw(p.getSprite());
 		p.updateSprite();
 		// Clear screen
@@ -134,7 +164,10 @@ int main()
 			p.adjustX(windowX - 20);
 		}
 
-
+		diff = p.getScore() / 100;
+		cout << diff << " " << endl;
+		
+		
 		sf::FloatRect playerbounds = p.getSprite().getGlobalBounds();
 		for (int x = 0; x < rocks.size(); x++)
 		{
@@ -145,6 +178,7 @@ int main()
 			{
 				rocks.erase(rocks.begin() + x);
 				p.increaseScore();
+				spawnValue--;
 				break;
 			}
 			sf::FloatRect rockBounds = rocks.at(x)->getSprite().getGlobalBounds();
@@ -163,7 +197,8 @@ int main()
 
 				rocks.at(x)->changeTex("hit.png");
 				window.draw(rocks.at(x)->getSprite());
-				window.draw(text);
+				
+				//window.draw(text);
 				//window.draw(newShape);
 				//window.display();
 				goto endOfloop;
