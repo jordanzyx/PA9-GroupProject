@@ -2,10 +2,13 @@
 #include "GameState.h"
 #include "game.h"
 
+const int W_HEIGHT = 1920;
+const int W_WIDTH = 1080;
+
 // Constructor
 Game::Game()
 {
-	window.create(sf::VideoMode(600, 500), "Dodger");
+	window.create(sf::VideoMode(W_HEIGHT, W_WIDTH), "Dodger");
 
 	window.setFramerateLimit(144);
 }
