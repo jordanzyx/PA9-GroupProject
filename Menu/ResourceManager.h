@@ -20,17 +20,19 @@ public:
 
     ResourceManager(const string& fileName) // fileName will be used to pass in textures
     {
-        populateStorage(fileName); // populates the file that's passed in
+        populateStorage(fileName); // allocate on heap
     }
 
     bool AddResource(const string& resName)
     {
-        auto Res = Find(resName);
+        auto resCheck = Find(resName);
 
-        if (Res) // if resName is already allocated
+        if (resCheck) // if resName is already allocated
         {
             // tells resMap if a second object is found
-            ++Res->second; // increments the counter in map
+            ++resCheck->second; // increments the counter in map
+
+            return true;
         }
 
         auto fPath = fMap.find(resName);
@@ -52,25 +54,25 @@ public:
 
     T* GetResource(const string& resName)
     {
-        // Auto since unsure what datatype Find() returns
-        auto Res = Find(resName);
+        // Auto since unsure what datatype Find() will return
+        auto resCheck = Find(resName);
 
-        if (Res)
-            return Res->first; // returning first element
+        if (resCheck)
+            return resCheck->first; // returning first element
         else
             return NULL;
     }
 
     bool ReleaseResource(const string& resName)
     {
-        auto Res = Find(resName);
+        auto resCheck = Find(resName);
 
-        if (!Res)
+        if (!resCheck)
             return false;
 
-        --Res->second; // decrement
+        --resCheck->second; // decrement
 
-        if (!Res->second)
+        if (!resCheck->second)
             Unload(resName); // de-allocate memory
 
         return true;
@@ -102,9 +104,7 @@ public:
 
 
 private:
-
     std::unordered_map< std::string, std::pair<T*, int> > resMap; // pair of resource type + counter
-
     std::unordered_map<std::string, std::string> fMap; // stores all resources when initialized
 
     // Find function
