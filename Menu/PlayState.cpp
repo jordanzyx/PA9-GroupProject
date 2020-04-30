@@ -32,20 +32,19 @@ void PlayState::handleInput()
 	{
 		switch (event.type)
 		{
+		// Close window
 		case sf::Event::Closed:
 			this->game->window.close();
 			break;
+		// If escape is pressed pause the game (can change the key)
 		case sf::Event::KeyPressed:
 			if (event.key.code == sf::Keyboard::Escape)
-			{
 				pauseGame();
-			}
 			break;
 		}
 	}
 }
-// If escape is pressed pause the game (can change the key)
-			// Close window
+
 PlayState::PlayState(Game* game)
 {
 	this->game = game;
