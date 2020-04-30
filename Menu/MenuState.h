@@ -3,6 +3,7 @@
 
 #include "SFML/Graphics.hpp"
 #include "GameState.h"
+#include "TextureManager.h"
 
 class MenuState : public GameState
 {
@@ -15,8 +16,11 @@ public:
 	virtual void handleInput(); // Handles input
 
 private: 
-	// View if we want it
+	// View if we want/need it
 	sf::View view;
+
+	TextureManager menuScreen;
+	sf::Sprite menuSprite;
 
 	// Loads game and changes game state to play game state
 	void loadGame();
