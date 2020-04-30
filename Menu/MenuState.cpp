@@ -7,6 +7,14 @@
 // Constructor
 MenuState::MenuState(Game* game)
 {
+	// To add menu image
+	menuScreen.AddResource("Background");
+	menuSprite.setTexture(*(menuScreen.GetResource("Background")));
+
+	// Temporary ------------------------------------------------------------------------------
+	sf::Vector2f targetSize(800.0f, 600.0f);
+	menuSprite.setScale(targetSize.x / menuSprite.getLocalBounds().width, targetSize.y / menuSprite.getLocalBounds().height);
+
 	this->game = game;
 }
 
@@ -51,7 +59,7 @@ void MenuState::update(const double dt)
 // Will draw the screen
 void MenuState::draw(const double dt)
 {
-
+	game->window.draw(menuSprite);
 }
 
 
