@@ -1,31 +1,19 @@
+#include <SFML/Graphics.hpp>
+#include "GameMenu.h"
+
 #include <iostream>
-#include "TextureManager.h"
-#include "ResourceManager.h"
-#include "game.h"
-#include "MenuState.h"
+
+using namespace std;
 
 int main()
 {
-    // Pseudo-code for now
-    Game game;
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Dodger");
 
-    // Creates a pointer at game objects address to enter the menu
-    game.pushGameState(new MenuState(&game)); 
+    GameMenu menuText(window.getSize().x, window.getSize().y);
 
-    game.gameLoop();
-
-
-    TextureManager txtman;
-    txtman.AddResource("Background");
-
-
-    sf::Sprite sprite;
-
-    sprite.setTexture(*(txtman.GetResource("Background")));
-
-
-
-    sf::RenderWindow window(sf::VideoMode(1080, 720), "SFML works!");
+    sf::Texture texture;
+    texture.loadFromFile("background.png");
+    sf::Sprite background(texture);
 
 
     while (window.isOpen())
@@ -33,18 +21,43 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
-                window.close();
+            switch (event.type)
+            {
+            case sf::Event::KeyReleased:
+                switch (event.key.code)
+                {
+                case sf::Keyboard::Up:
+                    menuText.MoveUp();
+                    break;
+
+                case sf::Keyboard::Down:
+                    menuText.MoveDown();
+                    break;
+
+                case sf::Keyboard::Return:
+                    switch (menuText.pressedItem())
+                    {
+                    case 0: 
+                        cout << "Play button was pressed" << endl;
+                        break;
+                    case 1:
+                        window.close();
+                        break;
+                    }
+
+                    break;
+                }
+
+                break;
+            }
+
         }
 
-
         window.clear();
-        window.draw(sprite);
+        window.draw(background);
+        menuText.draw(window);
         window.display();
     }
-
-    txtman.ReleaseResource("Background");
-
 
     return 0;
 }
