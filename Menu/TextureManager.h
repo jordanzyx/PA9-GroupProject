@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "TextureManager.h"
+
 #include "SFML/Graphics.hpp"
 #include "ResourceManager.h"
 
@@ -14,14 +14,15 @@ public:
     // Constructor so if we have lots of images in our texture.txt it will not load all images at once
     // Images are loaded when needed
     // We allocate and de-allocate from the heap as needed
-    TextureManager(): ResourceManager("textures.txt"){}
+    TextureManager(): ResourceManager("data/textures.txt"){}
 
     sf::Texture* load(const string& fileName)
     {
-        sf::Texture* text = new sf::Texture(); // Allocate memory on the heap
+        // Allocating memory on the heap
+        sf::Texture* text = new sf::Texture(); 
            
         // If the text fails to properly load it deletes the allocated memory and sets it back to NULL
-        if (!text->loadFromFile(fileName))
+        if (!text->loadFromFile("data/" + fileName))
         {
             delete text;
             text = NULL;
@@ -29,7 +30,8 @@ public:
             cerr << "Texture failed to properly load"; // Error message
             cout << endl;
         }
-
+        
+        // Returns texture if texture did not fail
         return text;
     }
 };
