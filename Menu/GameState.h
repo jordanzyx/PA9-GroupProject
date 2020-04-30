@@ -11,11 +11,13 @@
 class GameState
 {
 public:
-    Game* game;
-
     virtual void draw(const double dt) = 0; // Draw to screen
     virtual void update(const double dt) = 0; // Update screen
     virtual void handleInput() = 0; // Handles input
+
+protected:
+    // Allows us to access in multiple files
+    Game* game;
 };
 
 
