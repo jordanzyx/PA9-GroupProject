@@ -31,6 +31,8 @@ GameLogic::GameLogic(sf::RenderWindow* game_I, int windowX_I, int windowY_I, sf:
 	p.resizeSpriteScale(.25, .25);
 }
 
+
+//Uses the event while loop to find user input
 void GameLogic::GetPlayerInput(sf::Event event)
 {
 	
@@ -68,6 +70,8 @@ void GameLogic::GetPlayerInput(sf::Event event)
 	
 	cout << "Left " << left << " Right " << right << endl;
 }
+
+//Sets a  direction depending on what GetUserInput set
 void GameLogic::SetPlayerDir()
 {
 	if (left == true)
@@ -82,7 +86,7 @@ void GameLogic::SetPlayerDir()
 	{
 		p.setDirection(1);
 	}
-	if (p.getX() > windowX)
+	if (p.getX() > windowX-20)
 	{
 		p.adjustX(0);
 	}
@@ -91,10 +95,14 @@ void GameLogic::SetPlayerDir()
 		p.adjustX(windowX - 20);
 	}
 }
+
+//Not used
 void GameLogic::ComputeScore()
 {
 
 }
+
+//Draws and updates
 void GameLogic::DrawSprites()
 {
 	sf::Text scores("Score " + to_string(p.getScore()), font, 25);
@@ -105,10 +113,14 @@ void GameLogic::DrawSprites()
 	game->draw(p.getSprite());
 	p.updateSprite();
 }
+
+//Increases the amount of rocks every 100 pts
 void GameLogic::SetDiffuculty()
 {
 	diff = p.getScore() / 100;
 }
+
+//Uses Circle detection to check if a collition has occured, if so, breaks loop
 bool GameLogic::CheckCollition()
 {
 	sf::FloatRect playerbounds = p.getSprite().getGlobalBounds();
@@ -150,6 +162,8 @@ bool GameLogic::CheckCollition()
 	}
 	return false;
 }
+
+//When the counter 
 void GameLogic::SpawnRocks()
 {
 	if (counter >= 500)
@@ -163,6 +177,7 @@ void GameLogic::SpawnRocks()
 	}
 }
 
+//Sets direction (0 no move, 1 move, 2 no change)
 void GameLogic::setDir(int left_I, int right_I)
 {
 	if (left_I == 1)
@@ -183,6 +198,7 @@ void GameLogic::setDir(int left_I, int right_I)
 	}
 }
 
+//Creates a vector of rocks to fall
 void GameLogic::MakeRocks(int random)
 {
 	for (int x = 0; x < random; x++)
