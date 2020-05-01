@@ -35,7 +35,10 @@ int Moveable::getDirection() {
 
 void Moveable::changeTex(string file)
 {
-	texture.loadFromFile(file);
+	if (!texture.loadFromFile(file))
+	{
+		cout << "Fail to load texture";
+	}
 }
 
 void Moveable::changeOrgin(double x, double y)
@@ -95,7 +98,7 @@ Player::Player(string filename, int posX, int posY) :Moveable(filename, posX, po
 {
 	setDirection(1);
 }
-Player::Player() : Moveable("player.png",0,0)
+Player::Player() : Moveable("Assets/player1.png",0,0)
 {
 	setDirection(1);
 }
@@ -124,10 +127,10 @@ int Rock::getSpriteNumber() {
     return spriteNumber;
 }
 
-Rock::Rock(int spriteNumber) : Moveable("rock.png",0,0) {
+Rock::Rock(int spriteNumber) : Moveable("Assets/rock.png",0,0) {
     setDirection(0);
 }
-Rock::Rock() :Moveable("rock.png", 0 ,0)
+Rock::Rock() :Moveable("Assets/rock.png", 0 ,0)
 {
 	setDirection(0);
 }

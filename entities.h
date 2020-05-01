@@ -8,7 +8,7 @@
 #include <iostream>
 using namespace std;
 class Moveable {
-private:
+protected:
 	sf::Texture texture;
 	sf::Vector2f position;
 	sf::Sprite sprite;
