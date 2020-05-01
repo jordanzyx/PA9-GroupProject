@@ -3,3 +3,12 @@ Welcome to dodger.
 Requires SFML static libraries
 
 Written in c++
+
+
+Controls:
+Enter: Select
+Escape: Menu
+Up: Menu Up
+Down: Menu Down
+Left: Move Left
+Right: Move Right
