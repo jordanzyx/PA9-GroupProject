@@ -79,13 +79,13 @@ void Moveable::updateSprite()
 		sprite.move(0.f, 0.f);
 		break;
 	case 2:
-		sprite.move(-0.25f, 0.f);
+		sprite.move(-2.25f, 0.f);
 		break;
 	case 3:
-		sprite.move(0.25f, 0.f);
+		sprite.move(2.25f, 0.f);
 		break;
 	case 0:
-		sprite.move(0.0f, 0.15f);
+		sprite.move(0.0f, 2.15f);
 		break;
 	}
 	

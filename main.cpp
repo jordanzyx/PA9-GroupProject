@@ -2,19 +2,22 @@
 #include "Menu/GameMenu.h"
 #include "entities.h"
 #include "GameLogic.h"
-
+#include "tests.h"
 #include <iostream>
 
 using namespace std;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Dodger");
 
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Dodger");
+	sf::Image icon;
+	icon.loadFromFile("Assets/player1.png");
+	window.setIcon(icon.getSize().x,icon.getSize().y ,icon.getPixelsPtr());
     GameMenu menuText(window.getSize().x, window.getSize().y);
 
 	sf::Font font;
-	font.loadFromFile("arial.ttf");
+	font.loadFromFile("Assets/arial.ttf");
 	sf::Clock clock;
 
     sf::Texture texture;
@@ -29,6 +32,16 @@ int main()
 	bool newGame = false;
 	bool collition = false;
 	GameLogic* logic = new GameLogic(&window, 800, 600, texture);
+
+	//Tests
+	Tests test;
+	cout << test.testAdjustX() << " Adjust Y " << test.testAdjustY() << " Loading Assets " << test.testLoadingAssets() << " test set origin <<" << test.testSetOrigin() << endl;
+
+
+	//End Tests
+
+
+	window.setFramerateLimit(256);
     while (window.isOpen())
     {
 		if (newGame)
@@ -42,6 +55,9 @@ int main()
 			logic->GetPlayerInput(event);
             switch (event.type)
             {
+			case sf::Event::Closed:
+				window.close();
+				break;
             case sf::Event::KeyReleased:
                 switch (event.key.code)
                 {
@@ -110,10 +126,12 @@ int main()
 				collition = true;
 				clock.restart().asSeconds();
 				window.display();
+				
 			}
 		}
 		
         window.display();
+		
 		end:
 		{}
     }

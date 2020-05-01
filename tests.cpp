@@ -22,7 +22,7 @@ bool Tests::testLoadingAssets() {
     check2 = hitmarker.loadFromFile("Assets/hit.png");
     check3 = player.loadFromFile("Assets/player1.png");
     check4 = rock.loadFromFile("Assets/rock.png");
-    check5 = mainscreen.loadFromFile("Assets/FallingRocks.png")
+	check5 = mainscreen.loadFromFile("Assets/FallingRocks.png");
 
     return check1 && check2 && check3 && check4 && check5;
 }
@@ -33,7 +33,7 @@ bool Tests::testPolymorphism() {
     Moveable player = Player();
 
     //Check if they both create successfully
-    return rock != NULL && player != NULL;
+    return (&rock != NULL) && (&player != NULL);
 }
 
 

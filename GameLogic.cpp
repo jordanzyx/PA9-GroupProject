@@ -3,7 +3,7 @@
 GameLogic::GameLogic()
 {
 	left = false, right = false;
-	windowX = 800, windowY = 600, counter = 0, counter2 = 0, spawnValue = 500, diff = 0, fps = 0;
+	windowX = 800, windowY = 600, counter = 0, counter2 = 0, spawnValue = 25, diff = 0, fps = 0;
 	bkgd.loadFromFile("Assets/background.png");
 	background.setTexture(bkgd);
 	font.loadFromFile("Assets/arial.ttf");
@@ -18,7 +18,7 @@ GameLogic::GameLogic(sf::RenderWindow* game_I, int windowX_I, int windowY_I, sf:
 {
 	game = game_I;
 	left = false, right = false;
-	windowX = windowX_I, windowY = windowY_I, counter = 0, counter2 = 0, spawnValue = 500, diff = 0, fps = 0;
+	windowX = windowX_I, windowY = windowY_I, counter = 0, counter2 = 0, spawnValue = 25, diff = 0, fps = 0;
 	bkgd = background_I;
 	background.setTexture(bkgd);
 	font.loadFromFile("Assets/arial.ttf");
@@ -166,7 +166,7 @@ bool GameLogic::CheckCollition()
 //When the counter 
 void GameLogic::SpawnRocks()
 {
-	if (counter >= 500)
+	if (counter >= 85)
 	{
 		MakeRocks(rand()%(2+diff));
 		counter = 0;
